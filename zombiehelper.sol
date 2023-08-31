@@ -11,7 +11,7 @@ contract ZombieHelper is ZombieFeeding {
     }
 
     function withdraw() external onlyOwner {
-        address payable _owner = address(uint160(owner()));
+        address _owner = owner();
         _owner.transfer(address(this).balance);
     }
 
@@ -24,19 +24,21 @@ contract ZombieHelper is ZombieFeeding {
         zombies[_zombieId].level++;
     }
 
+    // 1. Modify this function to use `ownerOf`:
     function changeName(uint _zombieId, string calldata _newName)
         external
         aboveLevel(2, _zombieId)
+        ownerOf(_zombieId)
     {
-        require(msg.sender == zombieToOwner[_zombieId]);
         zombies[_zombieId].name = _newName;
     }
 
+    // 2. Do the same with this function:
     function changeDna(uint _zombieId, uint _newDna)
         external
         aboveLevel(20, _zombieId)
+        ownerOf(_zombieId)
     {
-        require(msg.sender == zombieToOwner[_zombieId]);
         zombies[_zombieId].dna = _newDna;
     }
 
