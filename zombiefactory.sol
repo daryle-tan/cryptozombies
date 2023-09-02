@@ -1,8 +1,11 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 import "./ownable.sol";
+import "./safemath.sol";
 
 contract ZombieFactory is Ownable {
+    using SafeMath for uint256;
+
     event NewZombie(uint zombieId, string name, uint dna);
 
     uint dnaDigits = 16;
@@ -24,7 +27,6 @@ contract ZombieFactory is Ownable {
     mapping(address => uint) ownerZombieCount;
 
     function _createZombie(string memory _name, uint _dna) internal {
-        // 2. Modify new zombie creation here:
         uint id = zombies.push(
             Zombie(_name, _dna, 1, uint32(now + cooldownTime), 0, 0)
         ) - 1;
